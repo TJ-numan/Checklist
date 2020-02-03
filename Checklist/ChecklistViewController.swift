@@ -30,8 +30,25 @@ class ChecklistViewController: UITableViewController {
         //item3.checked = false
         items.append(item3)
         
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    @IBAction func cancel(_ sender: Any) {
         
     }
+    
+    @IBAction func addItem(_ sender: Any) {
+        
+        let newRowIndex = items.count
+        let item =  ChecklistItem()
+        item.text =  "i am a new row"
+        items.append(item)
+
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPaths = [indexPath]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+    }
+    
+    
     //MARK:- Function
     func configureText(for cell: UITableViewCell,
                        with item: ChecklistItem) {
@@ -44,7 +61,12 @@ class ChecklistViewController: UITableViewController {
         cell.accessoryType = item.checked ? .checkmark : .none
     }
     
-    //MARK:- Table View Data Source
+    //MARK:- Table View Data Sour	cell
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        items.remove(at: indexPath.row)
+          let indexPaths = [indexPath]
+        tableView.deleteRows(at: indexPaths, with: .automatic)
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
